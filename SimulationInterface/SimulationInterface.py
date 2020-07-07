@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-class JupyterSimulationEngine():
+class SimulationInterface():
 
     def __init__(self):
         return
@@ -54,23 +54,3 @@ class JupyterSimulationEngine():
             self.__export_doc()
         elif extension=="xlsx":
             self.__export_doc()
-
-############
-
-parameters = {
-                "x_min":0, 
-                "x_max":10, 
-                "x_Npoints":30,
-                "m":1.5,
-                "b":1,
-             }
-data = {
-        "x":[0,1,2,3], 
-        "y":[0,1,2,3], 
-        "plot_options":None
-        }
-
-JSE = JupyterSimulationEngine()
-JSE.new(parameters, data)
-JSE.simulate()
-JSE.plot()

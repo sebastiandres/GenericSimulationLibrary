@@ -5,7 +5,7 @@ setup(
     version='0.0.1',
     author='Sebastian Flores',
     author_email='sebastiandres@gmail.com',
-    packages=['SimulationEngine'],
+    packages=['SimulationInterface'],
     scripts=[],
     url='http://www.github.com/sebastiandres/simulationinterface',
     license='MIT',

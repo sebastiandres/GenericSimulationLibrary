@@ -12,7 +12,7 @@ class SimulationInterface():
         """
         try:
             import colab
-            environment = "google_colab"
+            python_environment = "google_colab"
         except:
             try:
                 print(__file__)
@@ -21,6 +21,7 @@ class SimulationInterface():
                 print("Not in python")
                 python_environment = "jupyter_notebook"
         print("Environment: ", python_environment)
+        self.python_environment = python_environment
         self.parameters = {}
         self.data = {}
         self.simulation = {}
@@ -35,7 +36,7 @@ class SimulationInterface():
         # pickle and return
         my_dict = {
                    "parameters":self.parameters, 
-                   "simulation":self.simulation
+                   "simulation":self.simulation,
                    "data":self.data,
                   }
         with open(filename, "wb") as fh:
@@ -72,24 +73,27 @@ class SimulationInterface():
         plt.plot(data["x"], data["y"], "o", label="data")
         plt.show()
 
+    def download(self, extension):
+        if extension=="seed":
+            print("Creating a seed")
+            self.create_seed()
+            if self.python_environment=="google_colab":
+                from google.colab import files
+                files.download("my_simulation.sim")
+
+        elif extension=="xlsx":
+            self.__export_xlsx()
+
     def __export_xlsx(self):
+        print("creating xlsx")
         filename = "test.xlsx"
         # Create the file
         with open(filename, "w") as fh:
             fh.write("Este es un test\n")
             fh.write("TEST")
         # Download the file
-        if self.environment=="google_colab":
+        if self.python_environment=="google_colab":
             from google.colab import files
             files.download(filename)
         
-    def download(self, extension):
-        if extension=="seed":
-            self.create_seed()
-            if self.environment=="google_colab":
-                from google.colab import files
-                files.download("my_simulation.sim")
-
-        elif extension=="xlsx":
-            self.__export_xlsx()
         

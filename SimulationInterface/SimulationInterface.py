@@ -1,21 +1,55 @@
 import numpy as np
 from matplotlib import pyplot as plt
+import pickle
 
 class SimulationInterface():
 
     def __init__(self):
+        """
+        Initializes the class, with no parameters. 
+        Will assume that if you have the colab library installed, 
+        you're running on google colab(oratory). 
+        """
+        try:
+            import colab
+            environment = "google_colab"
+        except:
+            try:
+                print(__file__)
+                python_environment = "python"
+            except:
+                print("Not in python")
+                python_environment = "jupyter_notebook"
+        print("Environment: ", python_environment)
+        self.parameters = {}
+        self.data = {}
+        self.simulation = {}
         return
 
     def new(self, parameters, data=None):
         self.parameters = parameters
         self.data = data
     
-    def create_from_seed(self, seed):
-        # Unpack and assign
+    def create_seed(self):
+        filename = "my_simulation.sim"
+        # pickle and return
+        my_dict = {
+                   "parameters":self.parameters, 
+                   "simulation":self.simulation
+                   "data":self.data,
+                  }
+        with open(filename, "wb") as fh:
+            pickle.dump(my_dict, fh)  
         return
 
-    def create_seed():
-        # pickle and return
+    def create_from_seed(self):
+        filename = "my_simulation.sim"
+        # Unpack and assign
+        with open(filename, "rb") as f:
+            my_dict = pickle.load(f)
+        self.parameters = my_dict["parameters"] 
+        self.simulation = my_dict["simulation"] 
+        self.data = my_dict["data"] 
         return
 
     def simulate(self):
@@ -27,30 +61,35 @@ class SimulationInterface():
        b = self.parameters["b"]
        x = np.linspace(x_min, x_max, num=x_Npoints)
        y = m*x + b
-       self.x = x
-       self.y = y
+       self.simulation = {"x":x, "y":y}
     
     def plot(self):
-        x = self.x
-        y = self.y
+        x = self.simulation["x"]
+        y = self.simulation["y"]
         data = self.data
         plt.figure(figsize=(16,8))
         plt.plot(x, y, "-", label="sim")
         plt.plot(data["x"], data["y"], "o", label="data")
         plt.show()
 
-    def __export_doc(self):
-        with open("test.doc", "w") as fh:
-            fh.write("Este es un test\n")
-            fh.write("TEST")
-
     def __export_xlsx(self):
-        with open("test.xlsx", "w") as fh:
+        filename = "test.xlsx"
+        # Create the file
+        with open(filename, "w") as fh:
             fh.write("Este es un test\n")
             fh.write("TEST")
+        # Download the file
+        if self.environment=="google_colab":
+            from google.colab import files
+            files.download(filename)
         
-    def export(self, extension):
-        if extension=="doc":
-            self.__export_doc()
+    def download(self, extension):
+        if extension=="seed":
+            self.create_seed()
+            if self.environment=="google_colab":
+                from google.colab import files
+                files.download("my_simulation.sim")
+
         elif extension=="xlsx":
-            self.__export_doc()
+            self.__export_xlsx()
+        

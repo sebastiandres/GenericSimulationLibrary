@@ -1,6 +1,8 @@
 import numpy as np
 from matplotlib import pyplot as plt
 import pickle
+import sys
+import time
 
 version = "0.0.1"
 
@@ -47,7 +49,7 @@ class SimulationInterface():
         self.parameters = parameters
         self.data = data
     
-    def create_seed(self):
+    def save(self):
         filename = "my_simulation.sim"
         # pickle and return
         my_dict = {
@@ -57,9 +59,14 @@ class SimulationInterface():
                   }
         with open(filename, "wb") as fh:
             pickle.dump(my_dict, fh)  
+        if self.configuration["python_environment"]=="google_colab":
+            from google.colab import files
+            files.download("my_simulation.sim")
+        else:
+            print("Not downloading")
         return
 
-    def create_from_seed(self):
+    def load(self):
         filename = "my_simulation.sim"
         # Unpack and assign
         with open(filename, "rb") as f:
@@ -70,16 +77,23 @@ class SimulationInterface():
         return
 
     def simulate(self):
-       # Unpack required values
-       x_min = self.parameters["x_min"]
-       x_max = self.parameters["x_max"]
-       x_Npoints = self.parameters["x_Npoints"]
-       m = self.parameters["m"]
-       b = self.parameters["b"]
-       x = np.linspace(x_min, x_max, num=x_Npoints)
-       y = m*x + b
-       self.simulation = {"x":x, "y":y}
-       return
+        # Unpack required values
+        x_min = self.parameters["x_min"]
+        x_max = self.parameters["x_max"]
+        x_Npoints = self.parameters["x_Npoints"]
+        m = self.parameters["m"]
+        b = self.parameters["b"]
+        x = np.linspace(x_min, x_max, num=x_Npoints)
+        # Simulation
+        for t in range(1,11):
+            time.sleep(0.1)
+            sys.stdout.write("\rElapsed time: %03d seconds %s" %(t, ""))
+            sys.stdout.flush()
+        sys.stdout.write("\rElapsed time: %03d seconds %s" %(t, "\n"))
+        y = m*x + b
+        # Store simulation
+        self.simulation = {"x":x, "y":y}
+        return
     
     def plot(self):
         x = self.simulation["x"]
@@ -91,21 +105,7 @@ class SimulationInterface():
         plt.show()
         return
 
-    def download(self, extension):
-        if extension=="seed":
-            print("Creating a seed")
-            self.create_seed()
-            if self.configuration["python_environment"]=="google_colab":
-                from google.colab import files
-                files.download("my_simulation.sim")
-            else:
-                print("Not downloading")
-
-        elif extension=="xlsx":
-            self.__export_xlsx()
-        return
-
-    def __export_xlsx(self):
+    def export_xlsx(self):
         print("creating xlsx")
         filename = "test.xlsx"
         # Create the file

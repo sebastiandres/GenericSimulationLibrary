@@ -48,7 +48,12 @@ class SimulationInterface():
     def new(self, parameters, data=None):
         self.parameters = parameters
         self.data = data
-    
+
+    def status(self):
+        print("The used environment is ", self.configuration["python_environment"])
+        print("The library version is ", self.configuration["version"])
+        return 
+
     def save(self):
         filename = "my_simulation.sim"
         # pickle and return
@@ -58,12 +63,14 @@ class SimulationInterface():
                    "data":self.data,
                   }
         with open(filename, "wb") as fh:
-            pickle.dump(my_dict, fh)  
+            pickle.dump(my_dict, fh)
+        """  
         if self.configuration["python_environment"]=="google_colab":
             from google.colab import files
             files.download("my_simulation.sim")
         else:
             print("Not downloading")
+        """  
         return
 
     def load(self):

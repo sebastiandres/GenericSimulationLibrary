@@ -2,6 +2,8 @@ import numpy as np
 from matplotlib import pyplot as plt
 import pickle
 
+version = "0.0.1"
+
 class SimulationInterface():
 
     def __init__(self):
@@ -10,22 +12,36 @@ class SimulationInterface():
         Will assume that if you have the colab library installed, 
         you're running on google colab(oratory). 
         """
-        try:
-            import colab
-            python_environment = "google_colab"
-        except:
-            try:
-                print(__file__)
-                python_environment = "python"
-            except:
-                print("Not in python")
-                python_environment = "jupyter_notebook"
-        print("Environment: ", python_environment)
-        self.python_environment = python_environment
+        self.configuration = self.__get_configuration()
         self.parameters = {}
         self.data = {}
         self.simulation = {}
         return
+
+    def __get_configuration(self):
+        """
+        .
+        """
+        # Gets the python environmnet
+        try:
+            import colab
+            pyenv = "google_colab"
+        except:
+            try:
+                aux = __file__
+                pyenv = "python"
+            except:
+                print("Not in python")
+                pyenv = "jupyter_notebook"
+        print("Environment: ", pyenv)
+        # Gets the library version
+        simint = version
+        # Pack and return
+        configuration = {
+                         "python_environment":pyenv,
+                         "version":version,
+                         }
+        return configuration
 
     def new(self, parameters, data=None):
         self.parameters = parameters
@@ -63,6 +79,7 @@ class SimulationInterface():
        x = np.linspace(x_min, x_max, num=x_Npoints)
        y = m*x + b
        self.simulation = {"x":x, "y":y}
+       return
     
     def plot(self):
         x = self.simulation["x"]
@@ -72,17 +89,21 @@ class SimulationInterface():
         plt.plot(x, y, "-", label="sim")
         plt.plot(data["x"], data["y"], "o", label="data")
         plt.show()
+        return
 
     def download(self, extension):
         if extension=="seed":
             print("Creating a seed")
             self.create_seed()
-            if self.python_environment=="google_colab":
+            if self.configuration["python_environment"]=="google_colab":
                 from google.colab import files
                 files.download("my_simulation.sim")
+            else:
+                print("Not downloading")
 
         elif extension=="xlsx":
             self.__export_xlsx()
+        return
 
     def __export_xlsx(self):
         print("creating xlsx")
@@ -92,8 +113,9 @@ class SimulationInterface():
             fh.write("Este es un test\n")
             fh.write("TEST")
         # Download the file
-        if self.python_environment=="google_colab":
+        if self.configuration["python_environment"]=="google_colab":
             from google.colab import files
             files.download(filename)
+        return
         
         

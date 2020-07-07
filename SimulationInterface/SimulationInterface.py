@@ -64,13 +64,11 @@ class SimulationInterface():
                   }
         with open(filename, "wb") as fh:
             pickle.dump(my_dict, fh)
-        """  
         if self.configuration["python_environment"]=="google_colab":
             from google.colab import files
             files.download("my_simulation.sim")
         else:
             print("Not downloading")
-        """  
         return
 
     def load(self):

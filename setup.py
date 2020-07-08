@@ -1,11 +1,11 @@
 from distutils.core import setup
 
 setup(
-    name='SimulationInterface',
+    name='GenericSimulationLibrary',
     version='0.0.2',
     author='Sebastian Flores',
     author_email='sebastiandres@gmail.com',
-    packages=['SimulationInterface'],
+    packages=['GenericSimulationLibrary'],
     scripts=[],
     url='https://github.com/sebastiandres/JupyterSimulationEngine',
     license='MIT',

@@ -1,1 +1,1 @@
-from SimulationInterface import SimulationInterface
+import SimulationInterface

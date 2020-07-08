@@ -1,1 +1,1 @@
-import simulation_interface.SimulationInterface as SimulationInterface
+from SimulationInterface import SimulationInterface

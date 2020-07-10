@@ -50,9 +50,8 @@ class SimulationInterface():
         # Check the version for matplotlib pyplot
         try:
             from matplotlib import __version__ as plt_version
-            matplotlib_version = plt_version
         except:
-            matplotlib_version = ""
+            plt_version = ""
         # Pack and return
         configuration = {
                          "environment":pyenv,

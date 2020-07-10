@@ -1,14 +1,20 @@
 from distutils.core import setup
 
+# Read the version from the file, so we define it only in one place
+version=open('GenericSimulationLibrary/version.py').read().split("=")[1].replace('"','')
+
+# Use the README for the long description
+long_description=open('README.md').read()
+
 setup(
     name='GenericSimulationLibrary',
-    version='0.0.2',
+    version=version,
     author='Sebastian Flores',
     author_email='sebastiandres@gmail.com',
     packages=['GenericSimulationLibrary'],
     scripts=[],
-    url='https://github.com/sebastiandres/JupyterSimulationEngine',
+    url='https://github.com/sebastiandres/GenericSimulationLibrary',
     license='MIT',
     description='A simple but functional simulation interface.',
-    long_description=open('README.md').read(),
+    long_description=long_description,
 )

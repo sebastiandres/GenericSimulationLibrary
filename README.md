@@ -48,24 +48,27 @@ SI.save()                       # Save the simulation
 **Easiest Install**
 
 ```
-pip install git+https://github.com/jkbr/httpie.git
+pip install git+https://github.com/sebastiandres/GenericSimulationLibrary.git
 ```
-
-pip install --upgrade --force-reinstall pip==9.0.3
 
 **Development Install**
 
-Install it on your system with:
+Install it locally on your system with:
 ```
-#python setup.py install
+git clone https://github.com/sebastiandres/GenericSimulationLibrary.git
+cd GenericSimulationLibrary
+python setup.py install
 ```
 
-Optionally, record the files installed, in case you want to remove it later.
+**Install and uninstall**
+Optionally, record the files installed, in case you want to remove them later:
+
 ```
 python setup.py install --record installation_files.txt
 ```
 
-**Uninstall**
+Uninstall removing the files:
 
+```
 cat installation_files.txt | xargs sudo rm -rf
-
+```

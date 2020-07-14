@@ -27,6 +27,11 @@ release = '0.0.3'
 
 # -- General configuration ---------------------------------------------------
 
+# Read the Docs will set master doc to index instead 
+# (or whatever it is you have specified in your settings).
+# See: https://stackoverflow.com/questions/56336234/build-fail-sphinx-error-contents-rst-not-found
+master_doc = 'index'
+
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.

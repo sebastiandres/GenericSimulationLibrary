@@ -11,7 +11,6 @@ Welcome to GeneralSimulationLibrary's documentation!
    :caption: Contents:
 
    intro
-   simulation_interface
    example
 
 Indices and tables

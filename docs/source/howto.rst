@@ -7,13 +7,15 @@ You should start by cloning the repo: `<https://github.com/sebastiandres/Generic
 
     git clone https://github.com/sebastiandres/GenericSimulationLibrary.git
 
-Version control
+Distribution
 ****************
 
 After cloning the deparment, dont forget to version control. It's not optional. 
 This is needed for versioning and also for the documentation.
 
 Add it to github, bitbucket or other repository.
+
+Upload it to pypi.
 
 Personalization
 ****************

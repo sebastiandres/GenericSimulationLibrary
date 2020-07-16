@@ -14,15 +14,18 @@ The framework puts an emphasis on simplicity:
 
 The framework can be personalized and extended for a specific simulation need.
 
+
 # Test it
 
 * In [Google Colab](https://colab.research.google.com/drive/1mfSZQOhe7qq1C-YpfX5dDpSedXGVjz4e?usp=sharing)
 
 * In [MyBinder](https://mybinder.org/v2/gh/sebastiandres/GenericSimulationLibrary/master?filepath=GenericSimulationLibrary%2Ftest_notebook%2Ftest_mybinder.ipynb)
 
+
 # Need more details? Read the docs!
 
 Read the docs: https://generalsimulationlibrary.readthedocs.io/en/latest/
+
 
 # Where has been used?
 

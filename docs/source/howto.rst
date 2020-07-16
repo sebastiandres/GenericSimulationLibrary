@@ -81,7 +81,7 @@ You should edit `setup.py` and own it: make the changes of library name, version
 The project can be distributed from day one from the github repository. 
 
 If you have a stable version, that you would like to distribute through pypi. 
-There's a nice `pypi tutorial >https://packaging.python.org/tutorials/packaging-projects/>`_ you can follow. 
+There's a nice `pypi tutorial <https://packaging.python.org/tutorials/packaging-projects/>`_ you can follow. 
 
 You need to have installed twine (`pip intall twine`), and to have accounts at `pypi <https://pypi.org/>`_ and `test.pypi <https://test.pypi.org/>`_. 
 Note that that they required different accounts.
@@ -89,15 +89,23 @@ Note that that they required different accounts.
 First, at the main folder, test the distribution at testpypi:
 
 .. code-block:: bash
+
     python setup.py sdist bdist_wheel
     python -m twine upload --repository testpypi dist/*
+
+There's a Makefile, so you can also just do `make test.pypi` at `GenericSimulationLibrary/` 
+(in your project shoul be at `MyProject/`) 
 
 You can check how everything looks at https://test.pypi.org/. 
 If everything is looking good, upload it to (real) pypi:
 
 .. code-block:: bash
+
     python setup.py sdist bdist_wheel
     python -m twine upload --repository pypi dist/*
+
+Using the Makefile, you can just do `make pypi` at `GenericSimulationLibrary/` 
+(in your project shoul be at `MyProject/`) 
 
 
 

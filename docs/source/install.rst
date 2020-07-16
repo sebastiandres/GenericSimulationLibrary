@@ -10,15 +10,6 @@ To use it the simulation code, you should consider using the standard libraries 
 To use this project's code and personalize it, you should consider the libraries numpy and matplotlib for simulation, 
 sphinx and sphinx-rtd-theme for documentation, and twine.
 
-First, at the main folder, test the distribution at testpypi:
-
-.. code-block:: bash
-    python -m twine upload --repository testpypi dist/*
-
-If everything is looking good, upload it to pypi:
-
-.. code-block:: bash
-    python -m twine upload --repository pypi dist/*
 
 Install from pypi
 ***********************

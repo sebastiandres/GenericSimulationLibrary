@@ -21,7 +21,7 @@ Test it
 
 * In `Google Colab <https://colab.research.google.com/drive/1mfSZQOhe7qq1C-YpfX5dDpSedXGVjz4e?usp=sharing>`_.
 
-* In 'MyBinder <https://mybinder.org/v2/gh/sebastiandres/GenericSimulationLibrary/master?filepath=GenericSimulationLibrary%2Ftest_notebook%2Ftest_mybinder.ipynb>`_.
+* In `MyBinder <https://mybinder.org/v2/gh/sebastiandres/GenericSimulationLibrary/master?filepath=GenericSimulationLibrary%2Ftest_notebook%2Ftest_mybinder.ipynb>`_.
 
 
 Need more details? Read the docs!

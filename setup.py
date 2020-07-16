@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 # Read the version from the file, so we define it only in one place
-version=open('GenericSimulationLibrary/version.py').read().split("=")[1].replace('"','')
+version=open('src/version.py').read().split("=")[1].replace('"','')
 
 # Use the README for the long description
 long_description=open('README.md').read()

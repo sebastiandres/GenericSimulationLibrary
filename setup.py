@@ -22,7 +22,7 @@ long_description=open('README.rst').read()
 setup(
     name='GenericSimulationLibrary',
     version=current_version,
-    author='Sebastian Flores',
+    author='Sebastian Flores Benner',
     author_email='sebastiandres@gmail.com',
     packages=['src'],
     scripts=[],

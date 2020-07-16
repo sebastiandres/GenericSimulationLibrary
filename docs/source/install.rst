@@ -14,8 +14,8 @@ sphinx and sphinx-rtd-theme for documentation, and twine.
 Install from pypi
 ***********************
 
-You can install the library from pypi. This is good for testing the library, 
-but will **not** allow you to personalize the code.
+You can install the library from `pypi <https://pypi.org/project/GenericSimulationLibrary/>`_. 
+This is good for testing the library, but will **not** allow you to personalize the code.
 
 .. code-block:: bash
 

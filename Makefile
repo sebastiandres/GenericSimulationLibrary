@@ -18,12 +18,12 @@ version:
 	nano src/version.py
 
 test.pypi:
-	rm dist/*.tar.gz
+	rm -f dist/*.tar.gz
 	python setup.py sdist
 	python -m twine upload --repository testpypi dist/*
 
 pypi:
-	rm dist/*.tar.gz
+	rm -f dist/*.tar.gz
 	python setup.py sdist
 	python -m twine upload --repository pypi dist/*
 

@@ -24,10 +24,10 @@ Test it
 * In `MyBinder <https://mybinder.org/v2/gh/sebastiandres/GenericSimulationLibrary/master?filepath=GenericSimulationLibrary%2Ftest_notebook%2Ftest_mybinder.ipynb>`_.
 
 
-Need more details? Read the docs!
+Need more info?
 -----------------------------------
 
-Read the docs: https://generalsimulationlibrary.readthedocs.io/en/latest/.
+`Read the docs! <https://generalsimulationlibrary.readthedocs.io/en/latest/>`_.
 
 
 Where has been used?

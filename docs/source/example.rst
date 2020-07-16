@@ -3,15 +3,14 @@ Examples
 
 Example in Google colab
 ************************
-
-In `Google Colab <https://colab.research.google.com/drive/1mfSZQOhe7qq1C-YpfX5dDpSedXGVjz4e?usp=sharing>`_. 
+Here is an executable example using `Google Colab <https://colab.research.google.com/drive/1mfSZQOhe7qq1C-YpfX5dDpSedXGVjz4e?usp=sharing>`_. 
 Requires a google account (but it's worth it :).
 
 Example in mybinder
 *********************
 
-In `MyBinder <https://mybinder.org/v2/gh/sebastiandres/GenericSimulationLibrary/master?filepath=GenericSimulationLibrary%2Ftest_notebook%2Ftest_mybinder.ipynb>`_.
-Does not requires any acount, but does not stores result.
+Here is an executable example using `MyBinder <https://mybinder.org/v2/gh/sebastiandres/GenericSimulationLibrary/master?filepath=GenericSimulationLibrary%2Ftest_notebook%2Ftest_mybinder.ipynb>`_.
+Does not requires any acount, but it will not store results.
 
 Code example
 *********************

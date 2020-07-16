@@ -22,4 +22,5 @@ The framework can be personalized and extended for a specific simulation need.
    example
    howto
    class
+   acknowledgements
    links

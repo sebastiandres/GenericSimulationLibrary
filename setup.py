@@ -11,7 +11,7 @@ setup(
     version=version,
     author='Sebastian Flores',
     author_email='sebastiandres@gmail.com',
-    packages=['GenericSimulationLibrary'],
+    packages=['src'],
     scripts=[],
     url='https://github.com/sebastiandres/GenericSimulationLibrary',
     license='MIT',

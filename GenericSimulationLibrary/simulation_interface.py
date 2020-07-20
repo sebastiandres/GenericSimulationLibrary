@@ -1,34 +1,42 @@
-
 import pickle
 import sys
-import time
-
-from version import __version__ as GSL_version
 
 class SimulationInterface():
-    """[summary]
+    """GenericSimulationLibrary is a package encapsulates a methodology 
+    and tools for reproducible simulations. 
+    The main idea is to use python and/or jupyter notebooks to provide a 
+    lightweight and for-dummies easy “Simulation as a Service”. 
+    The framework puts emphasis on simplicity: 
+    for the client to install and use, 
+    for the programmer to distribute and update, 
+    and for everyone to store and reproduce results. 
+    The framework can be personalized and extended for a specific simulation need.
+    Link: https://generalsimulationlibrary.readthedocs.io/
     """
 
     def __init__(self):
-        """
-        Initializes the class, with no inputs. 
+        """Initializes the class, with no inputs. 
         Will assume that if you have the colab library installed, 
         you're running on google colab(oratory). 
+
         :return: Nothing
         :rtype: Nothing
         """
         self.configuration = self.__get_configuration()
         self.inputs = {}
-        self.data = {}
+        self.plot_options = {}
         self.outputs = {}
         return
 
     def __get_configuration(self):
         """Carefully tries to import required libraries,
         storing the python and library version.
+
         :return: Nothing
         :rtype: Nothing
         """
+        # Gets the library version
+        from .version_file import version_number as GSL_version
         # Gets the python environmnet
         try:
             import colab
@@ -68,8 +76,7 @@ class SimulationInterface():
         return configuration
 
     def status(self):
-        """
-        Prints the environment, python and library versions.
+        """Prints out the detected configuration: environment, python and library versions.
         """
         # Configuration
         print("System configuration:")
@@ -86,66 +93,69 @@ class SimulationInterface():
                 print("    "+key, self.inputs[key])
         else:
             print("    No inputs")
-        # Data
-        print("Data:")
-        if self.data:
-            for key in self.data:
-                print("    "+key, self.data[key])
+        # plot_options
+        print("plot_options:")
+        if self.plot_options:
+            for key in self.plot_options:
+                print("    "+key, self.plot_options[key])
         else:
-            print("    No data")
-        return 
+            print("    No plot_options")
+        return  
 
-    def new(self, inputs, data=None):
+    def new(self, inputs, plot_options=None):
         """Associates inputs and plot options to the simulation. 
 
         :param inputs: The inputs that will be used in the simulation. 
             This can be completely personalized. 
         :type inputs: dict
-        :param data: The plot options, defaults to None
-        :type data: dict, optional
+        :param plot_options: The plot options, defaults to None
+        :type plot_options: dict, optional
         """
         self.inputs = inputs
-        self.data = data
+        self.plot_options = plot_options
 
-    def save(self):
-        """ My summary
+    def save(self, filename):
+        """Saves the current state of the simulation, with all
+        the provided information. The created file can be
+        used with the `load` method to restore the simulation. 
+
+        :param filename: Name for the simulation file.
+        :type filename: string
         """
-        if self.inputs and self.inputs["filename"]:
-            filename = self.inputs["filename"]
-        else:
-            print("Cannot save the simulation. Filename was not defined.")
-            return
-        # pickle and return
+        # Pickle and return
         my_dict = {
                    "configuration":self.configuration,
                    "inputs":self.inputs, 
                    "outputs":self.outputs,
-                   "data":self.data,
+                   "plot_options":self.plot_options,
                   }
         with open(filename, "wb") as fh:
             pickle.dump(my_dict, fh)
-            print("Saving simulation into file ", filename)
-        if self.configuration["environment"]=="google_colab":
-            from google.colab import files
-            files.download(filename)
+            print("Saving simulation into file ", filename)         
+        self.download(filename)  #Offer to download the file 
         return
 
-    def load(self, filepath):
+    def load(self, filename):
+        """Loads a simulation from a simulation file generated
+        with the `save` method to restore the simulation. 
+
+        :param filename: Name for the simulation file.
+        :type filename: string
+        """
         # Unpack and assign
-        with open(filepath, "rb") as f:
+        with open(filename, "rb") as f:
             my_dict=pickle.load(f)
         self.configuration=my_dict["configuration"]
         self.inputs=my_dict["inputs"] 
         self.outputs=my_dict["outputs"] 
-        self.data=my_dict["data"]
+        self.plot_options=my_dict["plot_options"]
         return
 
     def simulate(self):
-        """
-        Conditionally imports the numpy library.
+        """Conditionally imports the numpy library.
         """
         if self.configuration["numpy_version"]:
-            import numpy as np
+            from .simulation_code import execute_simulation
         else:
             print("Cannot simulate - numpy library not installed.")
             return
@@ -155,26 +165,20 @@ class SimulationInterface():
         N_points = self.inputs["N_points"]
         m = self.inputs["m"]
         b = self.inputs["b"]
-        x = np.linspace(x_min, x_max, num=N_points)
-        # Simulation
-        for t in range(1,13):
-            time.sleep(0.25)
-            sys.stdout.write("\rElapsed time: %03d secondss %s" %(t, ""))
-            sys.stdout.flush()
-        sys.stdout.write("\rElapsed time: %03d seconds %s" %(t, "\n"))
-        y = m*x + b
+        # Run the delegated simulation
+        outputs = execute_simulation(x_min, x_max, N_points, m, b)
         # Store simulation
-        self.outputs = {"x":x, "y":y}
+        self.outputs = outputs
         return
     
-    def plot(self, filename="", display=False):
+    def plot(self, filename="", display=True):
         """Conditionally imports the matplotlib library,
-            and if possible, plots the experimental data 
-            and the simulation data.
+        and if possible, plots the experimental data given
+        in plot_options, and the simulation data.
         
-        :param filename: [description], defaults to ""
+        :param filename: Filename to save the graph. If not provided, figure is not saved. Defaults to ''.
         :type filename: str, optional
-        :param display: [description], defaults to False
+        :param display: Boolean to show (True) or not show (False) the graph. Defaults to False
         :type display: bool, optional
         """
         if self.configuration["matplotlib_version"]:
@@ -189,16 +193,23 @@ class SimulationInterface():
         if "x" in self.outputs and "y" in self.outputs:
             x = self.outputs["x"]
             y = self.outputs["y"]
-            plt.plot(x, y, "-", label="sim")
+            plt.plot(x, y, **self.plot_options["sim_kwargs"])
             has_content=True
-        # Add the (experimental) data, if possible
-        if "x" in self.data and "y" in self.data:
-            plt.plot(self.data["x"], self.data["y"], "o", label="data")
+        # Add the (experimental) plot_options, if possible
+        if "data_x" in self.plot_options and "data_y" in self.plot_options:
+            plt.plot(self.plot_options["data_x"], 
+                     self.plot_options["data_y"], 
+                     **self.plot_options["data_kwargs"],
+            )
             has_content=True
-        # Add the properties
-        plt.xlabel("x here")
-        plt.ylabel("y here")
         plt.legend()
+        # Add the properties
+        if "xlabel" in self.plot_options:
+            plt.xlabel(self.plot_options["xlabel"])
+        if "ylabel" in self.plot_options:
+            plt.ylabel(self.plot_options["ylabel"])
+        if "title" in self.plot_options:
+            plt.title(self.plot_options["title"])
         # Save figure, if filename provided
         if filename:
             my_fig.savefig(filename)
@@ -212,23 +223,35 @@ class SimulationInterface():
         return
 
     def export_xlsx(self, filename):
+        """Creates an excel file and saves
+        the plot data and simulation data.
+        It helps providing a file format
+        that final users might be more familiar with.        
+
+        :param filename: Name for the file.
+        :type filename: string
         """
-        XsX
-        """
+
         # Create the file
         with open(filename, "w") as fh:
             fh.write("Este es un test\n")
             fh.write("TEST")
             print("Exported simulation as xlsx into file", filename)
-        # Download the file
+        self.download(filename)  #Offer to download the file 
         
-    def download(filename):
-        """
-        Utility to download file, using colab
+    def download(self, filename):
+        """Utility to download file, using colab
         """
         if self.configuration["environment"]=="google_colab":
             from google.colab import files
             files.download(filename)
         return
 
-        
+def test(iot1, o2p):
+    """[summary]
+
+    :param iot1: [description]
+    :type iot1: [type]
+    :param o2p: [description]
+    :type o2p: [type]
+    """

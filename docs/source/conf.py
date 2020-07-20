@@ -12,8 +12,7 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../../src/'))
-
+sys.path.insert(0, os.path.abspath('../../GenericSimulationLibrary/'))
 
 # -- Project information -----------------------------------------------------
 
@@ -23,9 +22,9 @@ author = 'Sebastian Flores Benner'
 
 # The full version, including alpha/beta/rc tags
 # Note: We import this to only define this in the src folder
-from version import __version__ as GSL_version
-release = GSL_version
-
+from version_file import version_number
+release = version_number
+print(f"{project} version number: {release}")
 
 # -- General configuration ---------------------------------------------------
 

@@ -14,6 +14,12 @@ help:
 
 .PHONY: help Makefile
 
+make install:
+	rm -f dist/*.tar.gz
+	rm -f build/lib/src/*.py
+	rm -f /miniconda3/lib/python3.7/site-packages/GenericSimulationLibrary/*.py
+	python setup.py install
+
 version:
 	nano src/version.py
 

@@ -1,33 +1,22 @@
+# Library to configure this setup file
 from distutils.core import setup
 
-def library_version():
-    """"Reads the src/version.py file and returns the version in the
-    format X.Y.Z (without ' nor ").
-    Steps: (1) Open the file (2) Get the version (3) Clean the string
-
-    :return: Current version
-    :rtype: string
-    """
-    filepath = 'src/version.py'
-    filecontent = open(filepath, "r").read()
-    current_version = filecontent.split("=")[1].replace('"','').replace("\n","")
-    return current_version
-
-# Read the version from the file, so we define it only in one place
-current_version = library_version()
+# Import the version of the the GeneralSimulationLibrary
+from src import version as current_version
 print("Current Library Version:", current_version)
+
 # Use the README for the long description
-long_description=open('README.rst').read()
+long_description=open('README.rst').read() ### Change the content of README.rst
 
 setup(
-    name='GenericSimulationLibrary',
+    name='GenericSimulationLibrary',        ### Change here
     version=current_version,
-    author='Sebastian Flores Benner',
-    author_email='sebastiandres@gmail.com',
-    packages=['src'],
+    author='Sebastian Flores Benner',       ### Change here
+    author_email='sebastiandres@gmail.com', ### Change here
+    packages=['GenericSimulationLibrary'],  ### Change here
     scripts=[],
-    url='https://github.com/sebastiandres/GenericSimulationLibrary',
-    license='MIT',
-    description='A simple but functional interface for simulation code.',
+    url='https://github.com/sebastiandres/GenericSimulationLibrary',    ### Change here
+    license='MIT',  ### May/May not change this. But if you change it, must also change LICENCE file
+    description='A simple but functional interface for simulation code.', ### Change here
     long_description=long_description,
 )

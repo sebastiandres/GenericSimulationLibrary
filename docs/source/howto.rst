@@ -47,10 +47,10 @@ all the information (inputs, system and libraries configuration, options and out
 
 To personalize the code, you need to replace the mentions to **GenericSimulationLibrary** and **SimulationInterface** 
 with the choosen names, in this example, MyProject and MyInterface. 
-You should edit the files at `GenericSimulationLibrary/src/` (in your project shoul be at `MyProject/src/`), in particular `simulation_interface.py` and `__init__.py`.
+You should edit the files at `GenericSimulationLibrary/GenericSimulationLibrary/` (in your project shoul be at `MyProject/GenericSimulationLibrary/`), in particular `simulation_interface.py` and `__init__.py`.
 You can add more files if needed.
 
-The code version is centralized and stored at `MyProject/src/version.py`. 
+The code version is centralized and stored at `MyProject/GenericSimulationLibrary/version.py`. 
 Follow some updating rule.
 
 Personalize the Documentation

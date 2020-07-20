@@ -16,12 +16,12 @@ help:
 
 make install:
 	rm -f dist/*.tar.gz
-	rm -f build/lib/src/*.py
+	rm -f build/lib/GenericSimulationLibrary/*.py
 	rm -f /miniconda3/lib/python3.7/site-packages/GenericSimulationLibrary/*.py
 	python setup.py install
 
 version:
-	nano src/version.py
+	nano GenericSimulationLibrary/version.py
 
 test.pypi:
 	rm -f dist/*.tar.gz

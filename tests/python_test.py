@@ -1,7 +1,5 @@
 from GenericSimulationLibrary import SimulationInterface
 
-import os
-
 inputs = {
          "x_min":0, 
          "x_max":10, 
@@ -24,21 +22,17 @@ plot_options = {
                          'linestyle':'dashed','linewidth':2, 
          },
 }
-filepath = os.path.dirname(__file__) + "/test.sim"
+filepath = "/test.sim"
 print("Sim file:", filepath)
 
 SI = SimulationInterface()
-#SI.status()
 SI.new(inputs, plot_options)
-#SI.status()
 SI.simulate()
-#SI.status()
 SI.save(filepath)
 SI.status()
 del SI
 
 SI_2 = SimulationInterface()
 SI_2.load(filepath)
-#SI_2.export_xlsx("test_3.xlsx")
 SI_2.plot(filename="test.png")
 SI_2.status()

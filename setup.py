@@ -2,7 +2,7 @@
 from distutils.core import setup
 
 # Import the version of the the GeneralSimulationLibrary
-from src import version as current_version
+from GenericSimulationLibrary import version as current_version
 print("Current Library Version:", current_version)
 
 # Use the README for the long description

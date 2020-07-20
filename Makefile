@@ -21,7 +21,7 @@ make install:
 	python setup.py install
 
 version:
-	nano GenericSimulationLibrary/version.py
+	nano GenericSimulationLibrary/version_file.py
 
 test.pypi:
 	rm -f dist/*.tar.gz

@@ -65,6 +65,13 @@ class SimulationInterface():
             from matplotlib import __version__ as plt_version
         except:
             plt_version = ""
+        # Check the version for matplotlib pyplot
+        try:
+            from ipywidgets import version_info as ipyw_version
+        except:
+            ipyw_version = ""
+
+
         # Pack and return
         configuration = {
                          "environment":pyenv,
@@ -72,6 +79,7 @@ class SimulationInterface():
                          "GenericSimulationLibrary_version":GSL_version,
                          "numpy_version":numpy_version,
                          "matplotlib_version":plt_version,
+                         "ipywidget_version":ipyw_version,
                          }
         return configuration
 
@@ -170,8 +178,33 @@ class SimulationInterface():
         # Store simulation
         self.outputs = outputs
         return
-    
+
     def plot(self, filename="", display=True):
+        """Conditionally imports the matplotlib library,
+        and if possible, plots the experimental data given
+        in plot_options, and the simulation data.
+        
+        :param filename: Filename to save the graph. If not provided, figure is not saved. Defaults to ''.
+        :type filename: str, optional
+        :param display: Boolean to show (True) or not show (False) the graph. Defaults to False
+        :type display: bool, optional
+        """
+        from .graphics import delegated_plot 
+        delegated_plot(self.configuration, self.inputs, 
+                       self.plot_options, self.outputs, 
+                       filename, display)
+
+    def interactive_plot(self):
+        """[summary]
+        """
+        from .graphics import delegated_interactive_plot 
+        iplot = delegated_interactive_plot(self.configuration, self.inputs, 
+                                   self.plot_options, self.outputs, 
+                                   filename="", display=True)
+        return iplot                           
+        
+
+    def _plot(self, filename="", display=True):
         """Conditionally imports the matplotlib library,
         and if possible, plots the experimental data given
         in plot_options, and the simulation data.
@@ -219,8 +252,40 @@ class SimulationInterface():
                 plt.show()
             else:
                 print("No content to plot.")
-        plt.close()
+        else:
+            plt.close()
         return
+
+    def _interactive_plot(self):
+        """[summary]
+        """
+        if self.configuration["matplotlib_version"]:
+            from matplotlib import pyplot as plt    
+        else:
+            print("Cannot interactive plot - matplotlib library not installed.")
+            return
+        if self.configuration["matplotlib_version"]:
+            from ipywidgets import interactive
+        else:
+            print("Cannot plot - ipywidget library not installed.")
+            return
+
+        def f(m, b):
+            my_fig = plt.figure(figsize=(16,8))
+            x = self.plot_options["data_x"]
+            y = self.plot_options["data_y"]
+            data_kwargs = self.plot_options["data_kwargs"]
+            sim_kwargs = self.plot_options["sim_kwargs"]
+            line_x = [min(x), max(x)]
+            line_y = [m*xi+b for xi in line_x]
+            plt.plot(x, y, **data_kwargs)
+            plt.plot(line_x, line_y, **sim_kwargs)
+            plt.show()
+
+        interactive_plot = interactive(f, m=(0.0, 6.0), b=(-10, 10, 0.5))
+        #output = interactive_plot.children[-1]
+        #output.layout.height = '350px'
+        return interactive_plot
 
     def export_xlsx(self, filename):
         """Creates an excel file and saves
@@ -246,12 +311,3 @@ class SimulationInterface():
             from google.colab import files
             files.download(filename)
         return
-
-def test(iot1, o2p):
-    """[summary]
-
-    :param iot1: [description]
-    :type iot1: [type]
-    :param o2p: [description]
-    :type o2p: [type]
-    """
